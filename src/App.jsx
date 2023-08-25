@@ -25,10 +25,31 @@ const userData = [
   },
 ];
 
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
+
 export default function App() {
   const [users, setUsers] = useState(userData);
 
-  const handleDragEnd = () => {};
+  const handleDragEnd = (result) => 
+  {
+    if (!result.destination) {
+      return;
+    }
+
+    const orderedUsers = reorder(
+      users,
+      result.source.index,
+      result.destination.index
+    );
+
+    setUsers(orderedUsers);
+  };
 
   return (
     <main className="bg-white text-black select-none w-full min-h-screen flex justify-center items-center">
